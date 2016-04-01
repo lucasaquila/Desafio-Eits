@@ -19,4 +19,7 @@ public interface ContaBancariaRepository extends JpaRepository<ContaBancaria, Lo
 	@Query("Select c from ContaBancaria c where c.usuario.id = :id")
 	List<ContaBancaria> findByUsuario(@Param("id") Long id);
 	
+    @Query("SELECT CASE WHEN COUNT(l) > 0 THEN true ELSE false END FROM Lancamento l WHERE l.contaBancaria.id = :id")
+    Boolean existeLancamento(@Param("id") Long id);
+	
 }

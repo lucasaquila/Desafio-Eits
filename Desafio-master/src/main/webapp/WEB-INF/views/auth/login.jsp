@@ -27,12 +27,8 @@
 				 <div layout="row" layout-align="center center">
 				 <div class="md-headline md-padding" >Autenticação</div>
 				 </div>
-					 <%-- <form:form servletRelativeAction="/login" method="POST"> --%>
-					 <form:form action="login" method="POST">
+					 <form:form servletRelativeAction="/login" method="POST">
 					 <!-- <form role="form" ng-submit="login()"></form> -->
-					 	<div>
-					 	
-					 	</div>
 						<md-input-container class="md-block"> 
 							<label for="username">Email</label> 
 							<input type="email" name="username"	ng-model="credentials.email" required />

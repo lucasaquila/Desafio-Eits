@@ -18,5 +18,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 	@Query("update Usuario u set u.situacao =:situacao where u.id =:id")
 	void changeSituacao(@Param("situacao") Boolean situacao, @Param("id") Long id);
 	
-	
+    @Query("SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM Usuario u WHERE u.email = :email")
+    Boolean existsUsuarioByEmail(@Param("email") String email);
 }

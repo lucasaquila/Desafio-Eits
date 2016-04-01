@@ -17,12 +17,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.envers.Audited;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import com.sun.istack.internal.NotNull;
 import com.sun.javafx.scene.control.skin.FXVK.Type;
 
 @Entity
 @Table(name = "lancamento")
+@Audited
 public class Lancamento extends AbstractPersistable<Long>{
 	
 	private String observacao;

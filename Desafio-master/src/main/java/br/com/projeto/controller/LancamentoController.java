@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,11 +57,11 @@ public class LancamentoController {
 		return modelAndView;
 	}
 	
-	@RequestMapping("/getLancamentos")
+/*	@RequestMapping("/getLancamentos")
 	public List<Lancamento> getContasBancarias(SecurityContextHolderAwareRequestWrapper request){
 		List<Lancamento> lancamentos = lancamentoService.findAll(request);
 		return lancamentos;
-	}
+	}*/
 	
 	@RequestMapping("/getLancamentosData")
 	public List<Lancamento> getLancamentosPorData(@RequestParam(value = "dataDe", required = false) Calendar dataDe, 
@@ -77,7 +78,7 @@ public class LancamentoController {
 	}
 	
 	@RequestMapping(value = "/efetuarSaque", method = RequestMethod.POST)
-	public ResponseEntity<?> efetuarSaque(@Valid @RequestBody Lancamento lancamento){
+	public ResponseEntity<?> efetuarSaque(@Valid @RequestBody Lancamento lancamento) throws MessagingException{
 
         return lancamentoService.efetuarSaque(lancamento);
 	}

@@ -14,11 +14,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.data.jpa.domain.AbstractPersistable_;
 
 @Entity
 @Table(name = "contabancaria")
+@Audited
 public class ContaBancaria extends AbstractPersistable<Long>{
 	
 	@NotNull

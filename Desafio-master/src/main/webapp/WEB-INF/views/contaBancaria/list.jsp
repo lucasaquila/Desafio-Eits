@@ -39,7 +39,7 @@
               </tr>
             </thead>
             <tbody md-body>
-              <tr md-row  ng-click="teste(conta)" md-auto-select="" ng-repeat="conta in contasBancarias | filter: busca | orderBy: '-nome'">
+              <tr md-row  ng-click="detalhe(conta)" md-auto-select="" ng-repeat="conta in contasBancarias | filter: busca | orderBy: '-nome'">
                 <td md-cell>{{conta.usuario.nome}}</td>
                 <td md-cell>{{conta.banco}}</td>
                 <td md-cell>{{conta.agencia}}</td>

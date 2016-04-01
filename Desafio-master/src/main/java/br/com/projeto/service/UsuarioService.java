@@ -10,8 +10,9 @@ import javax.mail.internet.MimeMessage;
 import org.apache.log4j.Logger;
 import org.apache.tomcat.util.net.jsse.openssl.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
+import br.com.projeto.entity.Erro;
 import br.com.projeto.entity.Usuario;
 import br.com.projeto.entity.UsuarioLogado;
 import br.com.projeto.repository.UsuarioRepository;
@@ -42,18 +44,27 @@ public class UsuarioService {
 	@Autowired
 	private MailSender mailer;
 	
-	 @Autowired
-	 private JavaMailSender mailSender; 
+	@Autowired
+	private JavaMailSender mailSender; 
 	
-	public Usuario save(Usuario usuario) throws MessagingException
+	public ResponseEntity<?> save(Usuario usuario) throws MessagingException
 	{
 		String hash = new BCryptPasswordEncoder().encode(usuario.getPassword());
 		usuario.setPasswordEdit(usuario.getPassword());
 		usuario.setPassword(hash);
-		
-		repository.save(usuario);
-		sendNewPurchaseMail(usuario);
-		return usuario;
+		if(repository.existsUsuarioByEmail(usuario.getEmail()))
+		{
+			Erro erro = new Erro();
+			erro.setMensagem("E-mail já cadastrado, insira um outro e-mail.");
+			return new ResponseEntity<>(erro,HttpStatus.CONFLICT);
+		}
+		else
+		{
+			repository.save(usuario);
+			sendNewPurchaseMail(usuario);
+			return new ResponseEntity<>(HttpStatus.OK);
+			
+		}
 	}
 	
 	public List<Usuario> findAll(SecurityContextHolderAwareRequestWrapper request)
@@ -100,29 +111,18 @@ public class UsuarioService {
 	}
 	
 	private void sendNewPurchaseMail(Usuario usuario) throws MessagingException {
-/*		SimpleMailMessage email = new SimpleMailMessage();
-		email.setFrom("lucas.aquila90@gmail.com");
-		email.setTo(usuario.getEmail());
-		email.setSubject("Bem-vindo ao Sistema Desafio EITS");
-		email.setText("");
-		mailer.send(email);*/
-		
-		
 		MimeMessage message = mailSender.createMimeMessage();
-
-		// use the true flag to indicate you need a multipart message
 		MimeMessageHelper helper = new MimeMessageHelper(message, true);
 		helper.setSubject("Bem-vindo ao Sistema Desafio EITS");
 		helper.setTo(usuario.getEmail());
 
-		// use the true flag to indicate the text included is HTML
-		helper.setText("<html><body><h1 style='color:rgb(33,150,243)'><strong>Bem-vindo ao Sistema - Desafio EITS</strong></h1>" +
-				"<h3>Olá " + usuario.getNome() +", seu cadastro foi criado com sucesso.</h3>"
-				+ "<p>Acesse o sistema com os seguintes dados:<br>"
+		helper.setText("<html><body><h1 style='color:rgb(33,150,243)'><strong>Bem-vindo ao Sistema - Desafio EITS</strong></h1>" 
+				+"<h3>Olá " + usuario.getNome() +", seu cadastro foi criado com sucesso.</h3>"
+				+"<p>Acesse o sistema com os seguintes dados:<br>"
 				+"<strong>E-mail: " + usuario.getEmail() + "</strong><br>"
 				+"<strong>Senha: " + usuario.getPasswordEdit() + "</p></strong>"
 				+ "</body></html>", true);
 		mailSender.send(message);
-		}
+	}
 	
 }

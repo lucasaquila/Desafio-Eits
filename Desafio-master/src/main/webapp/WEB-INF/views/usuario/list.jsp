@@ -70,7 +70,7 @@
           </table>
         </md-table-container>
 
-        <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{desserts.count}}" md-page-select="options.pageSelector" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+        <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{usuarios.length}}" md-page-select="options.pageSelector" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
       </md-card>
     </md-content>
 	

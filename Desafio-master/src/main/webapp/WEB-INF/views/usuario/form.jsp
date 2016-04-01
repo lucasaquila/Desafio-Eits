@@ -4,6 +4,12 @@
 			  </div>
 			  <div flex=60>
 		  <h2>Cadastro de Usuários</h2>
+		    <md-toolbar class="md-warn" ng-show="alerta">
+		       <div class="md-toolbar-tools"> 
+		        <span>{{mensagem}}</span>
+		       </div> 
+		    </md-toolbar>
+		  
 		  <p>Tipo de Usuário</p>
 		  <form ng-submit="adicionarUsuario(usuario)" name="formulario">
 		  <md-input-container class="md-block" flex-gt-sm>

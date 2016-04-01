@@ -37,12 +37,12 @@
 			<artifactId>javaee-api</artifactId>
 			<version>7.0</version>
 		</dependency>
+		<!-- Email -->
 		<dependency>
-	<groupId>org.springframework.integration</groupId>
-	<artifactId>spring-integration-mail</artifactId>
-	<version>4.2.0.RELEASE</version>
-</dependency>
-		
+			<groupId>org.springframework.integration</groupId>
+			<artifactId>spring-integration-mail</artifactId>
+			<version>4.2.0.RELEASE</version>
+		</dependency>
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
@@ -61,6 +61,11 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
+			<version>4.3.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-envers</artifactId>
 			<version>4.3.0.Final</version>
 		</dependency>
 		<dependency>
@@ -141,6 +146,7 @@
 			<artifactId>spring-data-jpa</artifactId>
 			<version>1.8.0.RELEASE</version>
 		</dependency>
+		
 		<!-- DWR -->
 		<dependency>
 			<groupId>org.directwebremoting</groupId>
@@ -212,9 +218,6 @@
 		    <artifactId>jackson-databind</artifactId>
 		    <version>2.5.0</version>
 		</dependency>
-		
-		<!-- E-mail -->
-
 	</dependencies>
 	<repositories>
 		<repository>

@@ -1,15 +1,23 @@
 package br.com.projeto.controller;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -80,14 +88,31 @@ public class ContaBancariaController {
 	}
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ContaBancaria save(@RequestBody ContaBancaria contaBancaria){
+	public ResponseEntity<?> save(@Valid @RequestBody ContaBancaria contaBancaria, BindingResult result){
+		if (result.hasErrors()) {
+			/*List<ObjectError> erros =  result.getAllErrors();*/
+			List<String> mensagens = new ArrayList<>();
+			List<FieldError> errors = result.getFieldErrors();
+			for (FieldError error : errors ) {
+				
+			     String mensagem = error.getField() + " - " + error.getDefaultMessage();
+			     
+			     
+			     mensagens.add(mensagem);
+			     
+			}
+			return new ResponseEntity<>(mensagens,HttpStatus.CONFLICT);
+		} else {
+			System.out.println("SUCESSO");
+		}
+		
         System.out.println("Entrou no método");
         return contaBancariaService.save(contaBancaria);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMINISTRADOR')")
 	@RequestMapping(value = "/saldoInicial", method = RequestMethod.GET)
-	public ModelAndView alterar(){
+	public ModelAndView saldoInicial(){
 		ModelAndView modelAndView =	new ModelAndView("contaBancaria/saldoInicial");
 		return modelAndView;
 	}
@@ -96,7 +121,7 @@ public class ContaBancariaController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMINISTRADOR')")
     @RequestMapping(value = "/saldoInicial/{id}", method = RequestMethod.PUT)
-    public BigDecimal inserirSaldoInicial(@PathVariable("id") long id, @RequestBody BigDecimal saldo) {
+    public BigDecimal saldoInicial(@PathVariable("id") long id, @RequestBody BigDecimal saldo) {
         contaBancariaService.inserirSaldoInicial(id, saldo);
         return saldo;
     }
@@ -114,9 +139,8 @@ public class ContaBancariaController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMINISTRADOR')")
 	@RequestMapping(value = "/excluir/{id}", method = RequestMethod.DELETE)
-	public String excluirContaBancaria(@PathVariable("id") long id){
-		contaBancariaService.deleteContaBancaria(id);
-		return "";
+	public ResponseEntity<?>  excluir(@PathVariable("id") long id){
+		return contaBancariaService.deleteContaBancaria(id);
 	}
 	
 }

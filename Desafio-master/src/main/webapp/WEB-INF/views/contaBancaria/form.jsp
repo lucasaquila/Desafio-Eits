@@ -4,6 +4,7 @@
 	<div flex="20"></div>
 	<div flex=60>
 		<h2>Cadastro de Conta Bancária</h2>
+		<form:errors path="*" cssClass="errorblock" element="div" />
 		<div layout="row">
 			<md-autocomplete md-selected-item="contaBancaria.usuario"
 				md-search-text="busca"
@@ -27,7 +28,8 @@
 		</md-input-container>
 		<md-input-container class="md-block" flex-gt-sm flex="30">
 			<label>Número da Conta</label> 
-			<input ng-model="contaBancaria.numero" placeholder="Insira o número da conta"> 
+			<input ng-model="contaBancaria.numero" placeholder="Insira o número da conta">
+			<div ng-if="getErrorMessage('emailId')">{{getErrorMessage('numero')}}</div> 
 			</md-input-container>
 		</div>
 		<div layout="row">

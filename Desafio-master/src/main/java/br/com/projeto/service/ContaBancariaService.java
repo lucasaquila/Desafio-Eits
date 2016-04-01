@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Service;
 
 import br.com.projeto.entity.ContaBancaria;
+import br.com.projeto.entity.Erro;
 import br.com.projeto.entity.Usuario;
 import br.com.projeto.entity.UsuarioLogado;
 import br.com.projeto.repository.ContaBancariaRepository;
@@ -46,8 +49,13 @@ public class ContaBancariaService {
 		}
 	}
 	
-	public ContaBancaria save(ContaBancaria contaBancaria){
-		return repository.save(contaBancaria);
+	public ResponseEntity<?> save(ContaBancaria contaBancaria){
+		try {
+			repository.save(contaBancaria);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.CONFLICT);
+		}
 	}
 	
 	public void inserirSaldoInicial(Long id, BigDecimal saldo) {
@@ -62,7 +70,18 @@ public class ContaBancariaService {
 		return repository.save(contaBancaria);
 	}
 	
-	public void deleteContaBancaria(Long id){
-		repository.delete(id);
+	public ResponseEntity<?> deleteContaBancaria(Long id){
+		Boolean existeLancamento = repository.existeLancamento(id);
+		if(existeLancamento == true)
+		{
+			Erro erro = new Erro();
+			erro.setMensagem("Impossível excluir esta conta, pois ela já possui lançamentos.");
+			return new ResponseEntity<>(erro,HttpStatus.CONFLICT);
+		}
+		else
+		{
+			repository.delete(id);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
 	}
 }

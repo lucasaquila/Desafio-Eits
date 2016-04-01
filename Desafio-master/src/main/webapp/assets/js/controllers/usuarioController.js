@@ -1,6 +1,22 @@
 angular.module("desafioApp").controller('usuarioController', ['$mdEditDialog', '$q', '$scope', '$timeout', '$http', 'usuarioService','$location', '$routeParams','$mdToast', '$mdDialog',  function ($mdEditDialog, $q, $scope, $timeout, $http, usuarioService, $location, $routeParams,$mdToast, $mdDialog) {
   'use strict';
   
+  $scope.query = {
+		    order: 'name',
+		    limit: 5,
+		    page: 1
+		  };
+  
+  $scope.options = {
+		    rowSelection: true,
+		    multiSelect: true,
+		    autoSelect: true,
+		    decapitate: false,
+		    largeEditDialog: false,
+		    boundaryLinks: false,
+		    limitSelect: true,
+		    pageSelect: true
+		  };
   
   $scope.toast = function(message)
   {
@@ -9,9 +25,11 @@ angular.module("desafioApp").controller('usuarioController', ['$mdEditDialog', '
 		        .textContent(message)
 		        .position('bottom right')
 		        .hideDelay(3000)
-		    );
+	  );
   }
  
+  $scope.alerta = false;
+  $scope.mensagem = "";
   $scope.usuarios = [];
   $scope.usuario = {
 		  nome : "",
@@ -20,12 +38,24 @@ angular.module("desafioApp").controller('usuarioController', ['$mdEditDialog', '
 		  	  
   };
   
-	if($routeParams.id != null){
+  if($routeParams.id != null){
 		usuarioService.getUsuario($routeParams.id).
 			success(function(usuario){
 				$scope.usuario = usuario;
 			});
 	}  
+  
+  $scope.adicionarUsuario = function(usuario) {
+		usuarioService.saveUsuario($scope.usuario).
+		success(function(){
+			$location.path("/usuario");
+			$scope.toast("Usuário cadastrado com sucesso!")
+		})
+		.error(function(data) {
+			$scope.alerta = true;
+			$scope.mensagem = data.mensagem;
+		})
+	};
   
   $scope.excluirUsuario = function(id){
 	  console.log("id: " + id)
@@ -81,16 +111,7 @@ angular.module("desafioApp").controller('usuarioController', ['$mdEditDialog', '
 	  })
   };
   
-  $scope.adicionarUsuario = function(usuario) {
-		usuarioService.saveUsuario($scope.usuario).
-		success(function(){
-			$location.path("/usuario");
-			$scope.toast("Usuário Cadastrado com Sucesso!")
-		})
-		.error(function(data,status,headers,config) {
-			console.log("erro");
-		})
-  	};
+
   	
   	
   	

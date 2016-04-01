@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
+import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.jpa.domain.AbstractPersistable;
@@ -25,6 +26,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="usuario")
+@Audited
 public class Usuario extends AbstractPersistable<Long>{
 	
 	@NotBlank

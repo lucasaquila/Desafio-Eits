@@ -69,7 +69,7 @@ public class UsuarioController {
 		
 	@PreAuthorize("hasRole('ROLE_ADMINISTRADOR')")
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public Usuario save(@RequestBody Usuario usuario) throws MessagingException {
+	public ResponseEntity<?> save(@RequestBody Usuario usuario) throws MessagingException{
         System.out.println("Entrou no método");
         return usuarioService.save(usuario);
 	}

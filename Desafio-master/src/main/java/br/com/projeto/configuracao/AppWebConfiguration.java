@@ -71,8 +71,7 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter {
 	    registry.addResourceHandler("/WEB-INF/**").addResourceLocations("/WEB-INF/");
 	    registry.addResourceHandler("/partials/**").addResourceLocations("/partials/");
 	  }
-	
-	
+	 
 	 @Bean
 	 public MailSender mailSender() {
 		 JavaMailSenderImpl javaMailSenderImpl = new JavaMailSenderImpl();
@@ -87,7 +86,7 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter {
 		 javaMailSenderImpl.setJavaMailProperties(mailProperties);
 		 return javaMailSenderImpl;
 	 }
-	 
+	
 	/*CONFIGURAÇÕES DWR*/
 	@Bean
 	public DwrController dwrController(ApplicationContext applicationContext)
