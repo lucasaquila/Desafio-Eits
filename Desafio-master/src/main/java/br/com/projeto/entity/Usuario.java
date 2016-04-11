@@ -19,8 +19,11 @@ import javax.validation.constraints.Size;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.data.jpa.domain.AbstractPersistable_;
+
+import br.com.projeto.repository.UsuarioRepository;
 
 import javax.validation.constraints.NotNull;
 
@@ -28,6 +31,7 @@ import javax.validation.constraints.NotNull;
 @Table(name="usuario")
 @Audited
 public class Usuario extends AbstractPersistable<Long>{
+
 	
 	@NotBlank
 	@Column(nullable= false, length=200)
@@ -102,7 +106,5 @@ public class Usuario extends AbstractPersistable<Long>{
 		this.passwordEdit = passwordEdit;
 	}
 	
-	
 
-	
 }

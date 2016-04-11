@@ -1,4 +1,4 @@
-angular.module('desafioApp', ['ngMaterial','md.data.table', "ngRoute", "ngMdIcons"]);
+angular.module('desafioApp', ['ngMaterial','md.data.table', "ngRoute", "ngMdIcons", "ngMessages" ]);
 angular.module('desafioApp')
 .config(['$httpProvider', function($httpProvider) {
 $httpProvider.defaults.xsrfHeaderName = 'X-CSRF-TOKEN';

@@ -18,14 +18,13 @@ angular.module("desafioApp").controller('usuarioController', ['$mdEditDialog', '
 		    pageSelect: true
 		  };
   
-  $scope.toast = function(message)
+  $scope.toast = function(message, type)
   {
-	  $mdToast.show(
-		      $mdToast.simple()
-		        .textContent(message)
-		        .position('bottom right')
-		        .hideDelay(3000)
-	  );
+	  $mdToast.show({
+	        template: '<md-toast class="md-toast ' + type + '">' + message + '</md-toast>',
+	        hideDelay: 6000,
+	        position: 'bottom right'
+	  });
   }
  
   $scope.alerta = false;
@@ -46,16 +45,37 @@ angular.module("desafioApp").controller('usuarioController', ['$mdEditDialog', '
 	}  
   
   $scope.adicionarUsuario = function(usuario) {
-		usuarioService.saveUsuario($scope.usuario).
-		success(function(){
-			$location.path("/usuario");
-			$scope.toast("Usuário cadastrado com sucesso!")
-		})
-		.error(function(data) {
-			$scope.alerta = true;
-			$scope.mensagem = data.mensagem;
-		})
-	};
+	  
+	  if(usuario.id)
+	  {
+		  //EDIT
+			usuarioService.editarUsuario($scope.usuario.id, $scope.usuario).
+			success(function(){
+				console.log("Editado com sucesso")
+				delete $scope.usuario;
+				$location.path("/usuario");
+				$scope.toast("Usuário Alterado com Sucesso!", "success")
+			})
+			.error(function() {
+				console.log("erro");
+			})
+	  }
+	  else
+      {
+		  //CREATE
+		  usuarioService.saveUsuario($scope.usuario).
+		  success(function(){
+			  $location.path("/usuario");
+			  $scope.toast("Usuário cadastrado com sucesso!", "success")
+		  })
+		  .error(function(data) {
+			  $scope.alerta = true;
+			  $scope.mensagem = data.mensagem;
+			  $scope.toast(data.mensagem, "error")
+		  })
+      }
+
+  };
   
   $scope.excluirUsuario = function(id){
 	  console.log("id: " + id)
@@ -96,7 +116,7 @@ angular.module("desafioApp").controller('usuarioController', ['$mdEditDialog', '
         .cancel('Não');
 	  $mdDialog.show(confirm).then(function() {
 		  $scope.alterarSituacao(selecionado);
-		  $scope.toast("Situação de Usuário alterada com sucesso!")
+		  $scope.toast("Situação de Usuário alterada com sucesso!", "success")
 	  }, function() {
 		  selecionado.situacao = !selecionado.situacao
 	  });
@@ -121,7 +141,7 @@ angular.module("desafioApp").controller('usuarioController', ['$mdEditDialog', '
 			console.log("Editado com sucesso")
 			delete $scope.usuario;
 			$location.path("/usuario");
-			$scope.toast("Usuário Alterado com Sucesso!")
+			$scope.toast("Usuário Alterado com Sucesso!", "success")
 		})
 		.error(function() {
 			console.log("erro");

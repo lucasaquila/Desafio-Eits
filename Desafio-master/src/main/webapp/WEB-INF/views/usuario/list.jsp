@@ -27,7 +27,7 @@
         </md-toolbar>
         <md-divider></md-divider>
         <md-table-container>
-          <table md-table md-disable-select="" md-progress="deferred">
+          <table md-table md-disable-select="" md-progress="promise">
             <thead md-head md-order="query.order" md-on-reorder="logOrder">
               <tr md-row>
                 <th md-column md-order-by="nome"><span>Nome</span></th>
@@ -40,7 +40,7 @@
               </tr>
             </thead>
             <tbody md-body>
-              <tr md-row md-auto-select="" ng-repeat="usuario in usuarios | filter: busca | orderBy: '-nome'">
+              <tr md-row md-auto-select="" ng-repeat="usuario in usuarios | filter: busca | orderBy: '-nome'  | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit" >
                 <td md-cell>{{usuario.nome}}</td>
                 <td md-cell>{{usuario.email}}</td>
                 <td md-cell>{{usuario.tipoUsuario == "ROLE_USUARIO" ? "Usuário" : "Administrador" }}</td>

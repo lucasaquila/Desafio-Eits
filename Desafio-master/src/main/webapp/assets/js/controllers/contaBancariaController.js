@@ -1,13 +1,12 @@
 angular.module("desafioApp").controller('contaBancariaController', function ($scope, $routeParams,$location, contaBancariaService, usuarioService, $mdToast, $mdDialog){
 	
-	  $scope.toast = function(message)
+	  $scope.toast = function(message,type)
 	  {
-		  $mdToast.show(
-			      $mdToast.simple()
-			        .textContent(message)
-			        .position('bottom right')
-			        .hideDelay(3000)
-		  );
+		  $mdToast.show({
+		        template: '<md-toast class="md-toast ' + type + '">' + message + '</md-toast>',
+		        hideDelay: 6000,
+		        position: 'bottom right'
+		  });
 	  }
 	  
 	  $scope.selected = [];
@@ -48,29 +47,35 @@ angular.module("desafioApp").controller('contaBancariaController', function ($sc
 		  });
 	  }
 	  
-	  $scope.adicionarContaBancaria = function() {
-		  	console.log($scope.contaBancaria);
-			contaBancariaService.saveContaBancaria($scope.contaBancaria).
-			success(function(){
-				$location.path("/contaBancaria");
-				$scope.toast("Conta Bancária cadastrada com sucesso!")
-			})
-			.error(function(data,status,headers,config) {
-				console.log(data);
-			})
-	  };
 	  
-	  $scope.editarContaBancaria = function(){
-		  contaBancariaService.editarContaBancaria($scope.contaBancaria.id, $scope.contaBancaria).
-		  success(function(){
-			  delete $scope.contaBancaria;
-			  $location.path("/contaBancaria");
-			  $scope.toast("Conta Bancária editada com sucesso!")
-		  })
-		  .error(function() {
-			  console.log("erro");
-		  })
+	  $scope.submit = function(contaBancaria){
+		  if(!contaBancaria.id)
+		  {
+			  contaBancariaService.saveContaBancaria($scope.contaBancaria).
+			  success(function(){
+				  $location.path("/contaBancaria");
+				  $scope.toast("Conta Bancária cadastrada com sucesso!", "success")
+			  })
+			  .error(function(data,status,headers,config) {
+				  $scope.toast(data, "error")
+			  })			  
+		  }
+		  else
+		  {
+			  contaBancariaService.editarContaBancaria($scope.contaBancaria.id, $scope.contaBancaria).
+			  success(function(){
+				  delete $scope.contaBancaria;
+				  $location.path("/contaBancaria");
+				  $scope.toast("Conta Bancária alterada com sucesso!", "success")
+			  })
+			  .error(function() {
+				  console.log("erro");
+			  })
+		  }
+
+
 	  };
+
 	  
 	$scope.contasBancarias = [];
 	
@@ -87,13 +92,30 @@ angular.module("desafioApp").controller('contaBancariaController', function ($sc
 		  contaBancariaService.inserirSaldoInicial(conta.id, conta.saldo).
 		  	success ( function ()  {
 		  		$location.path("/contaBancaria");
-				$scope.toast("Saldo Inicial inserido com sucesso!")
+				$scope.toast("Saldo Inicial inserido com sucesso!", "success")
 		  })
 		  .error(function(data,status,headers,config) {
 				console.log("erro ao alterar");
 		  })
 	  };
 	
+	  $scope.excluirContaBancariaDialog = function(selecionado){
+			 
+		    var confirm = $mdDialog.confirm()
+	        .title('Excluir Conta Bancária')
+	        .textContent('Você deseja alterar a situação do usuário ' + selecionado.nome + ' para ' + (selecionado.situacao? 'ATIVADO?' : "DESATIVADO?"))
+	        .ariaLabel('Lucky day')
+	        .ok('Sim')
+	        .cancel('Não');
+		  $mdDialog.show(confirm).then(function() {
+			  $scope.alterarSituacao(selecionado);
+			  $scope.toast("Situação de Usuário alterada com sucesso!", "success")
+		  }, function() {
+			  selecionado.situacao = !selecionado.situacao
+		  });
+		  
+	  };
+	  
       $scope.excluirContaBancaria = function(id){
     	  console.log("id: " + id)
     	  contaBancariaService.excluirContaBancaria(id)
@@ -101,7 +123,7 @@ angular.module("desafioApp").controller('contaBancariaController', function ($sc
 			 contaBancariaService.getContasBancariasByRole().
 			 success ( function ( data )  {
 				 $scope.contasBancarias = data;
-				$scope.toast("Conta Bancária excluída com sucesso!")
+				$scope.toast("Conta Bancária excluída com sucesso!","success")
 			 })
 		 })
 		 .error(function(data) {

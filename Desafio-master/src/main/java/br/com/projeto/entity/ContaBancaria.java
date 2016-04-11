@@ -35,7 +35,7 @@ public class ContaBancaria extends AbstractPersistable<Long>{
 	private BigDecimal saldo;
 	
 	@ManyToOne
-	@JoinColumn(name="id_usuario")
+	@JoinColumn(name="id_usuario", nullable=false)
 	private Usuario usuario;
 	
 	@Enumerated(EnumType.STRING)

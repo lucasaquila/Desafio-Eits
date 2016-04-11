@@ -34,6 +34,7 @@ import br.com.projeto.entity.Erro;
 import br.com.projeto.entity.Usuario;
 import br.com.projeto.entity.UsuarioLogado;
 import br.com.projeto.repository.UsuarioRepository;
+import junit.framework.Assert;
 
 @Service
 public class UsuarioService {
@@ -63,7 +64,6 @@ public class UsuarioService {
 			repository.save(usuario);
 			sendNewPurchaseMail(usuario);
 			return new ResponseEntity<>(HttpStatus.OK);
-			
 		}
 	}
 	

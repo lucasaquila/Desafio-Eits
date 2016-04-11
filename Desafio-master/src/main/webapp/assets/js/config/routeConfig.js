@@ -29,7 +29,7 @@ angular.module('desafioApp').config(function($routeProvider, $httpProvider) {
 	});
 	
 	$routeProvider.when("/usuario/editar/:id", {
-		templateUrl: "usuario/editar",
+		templateUrl: "usuario/form",
 		controller: "usuarioController"
 /*		resolve: {
 			usuario: function(usuarioService, $route){

@@ -57,10 +57,10 @@ public class UsuarioController {
 	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView list(){
 		ModelAndView modelAndView = new ModelAndView("usuario/list");
-		/*modelAndView.addObject("usuarios", usuarioService.findAll(request));*/
 		return modelAndView;
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMINISTRADOR')")
 	@RequestMapping("/listagem")
 	public List<Usuario> getUsuarios(SecurityContextHolderAwareRequestWrapper request){
 		List<Usuario> usuarios =usuarioService.findAll(request);
@@ -70,15 +70,12 @@ public class UsuarioController {
 	@PreAuthorize("hasRole('ROLE_ADMINISTRADOR')")
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public ResponseEntity<?> save(@RequestBody Usuario usuario) throws MessagingException{
-        System.out.println("Entrou no método");
         return usuarioService.save(usuario);
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMINISTRADOR')")
     @RequestMapping(value = "/alteraSituacao/{id}", method = RequestMethod.PUT)
     public Usuario updateUsuario(@PathVariable("id") long id, @RequestBody Usuario usuario) {
-        System.out.println("Updating User " + id);
-          
         usuarioService.updateUser(usuario.getSituacao(), id);
         return usuario;
     }
@@ -107,7 +104,6 @@ public class UsuarioController {
     @PreAuthorize("hasRole('ROLE_ADMINISTRADOR')")
 	@RequestMapping(value = "/excluirUsuario/{id}", method = RequestMethod.DELETE)
 	public Usuario excluir(@PathVariable("id") long id){
-		
 		Usuario usuario = usuarioService.findById(id);
 		usuarioService.deleteUsuario(id);
 		return usuario;
