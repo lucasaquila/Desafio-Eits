@@ -3,7 +3,8 @@
 <html lang="pt-br" ng-app="desafioApp">
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="webjars/angular-material/1.0.6/angular-material.css">
+	<!-- <link rel="stylesheet" href="webjars/angular-material/1.0.6/angular-material.css"> -->
+	<link rel="stylesheet" href="webjars/angular-material/1.1.0-rc1/angular-material.css">
 	<link rel="stylesheet" href="webjars/angular-material-icons/0.6.0/angular-material-icons.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="assets/css/style.css">
@@ -21,9 +22,9 @@
         
         
 
-<md-button md-no-ink class="md-primary">Bem-vindo <security:authentication property="principal.username" /></md-button>
+<md-button md-no-ink>Bem-vindo <security:authentication property="principal.username" /></md-button>
         
-	 <md-button md-no-ink class="md-primary" href="#/logout"><strong>LOGOUT</strong></md-button>
+	 <md-button md-no-ink href="#/logout"><strong>LOGOUT</strong></md-button>
       </div>
     </md-toolbar>
     <md-tabs style="background-color:#EAEAEA">
@@ -44,7 +45,8 @@
 	<script src="webjars/angular-animate/1.5.0/angular-animate.min.js"></script>
 	<script src="webjars/angular-aria/1.5.0/angular-aria.min.js"></script>
 	<script src="webjars/angular-material-icons/0.6.0/angular-material-icons.min.js"></script>
-	<script src="webjars/angular-material/1.0.6/angular-material.min.js"></script>
+	<!-- <script src="webjars/angular-material/1.0.6/angular-material.min.js"></script> -->
+	<script src="webjars/angular-material/1.1.0-rc1/angular-material.min.js"></script> 
 	
 	<script src="assets/js/md-data-table.min.js"></script>
 	<script src="assets/js/angular-locale_pt-br.js"></script>

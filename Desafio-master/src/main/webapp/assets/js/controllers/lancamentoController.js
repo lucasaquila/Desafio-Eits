@@ -1,9 +1,44 @@
-angular.module("desafioApp").controller('lancamentoController', function ($scope, $routeParams,$location,usuarioService, lancamentoService, contaBancariaService, $mdDialog, $mdMedia, $q){
+angular.module("desafioApp").controller('lancamentoController', function ($scope, $routeParams,$location,usuarioService, lancamentoService, contaBancariaService, $mdDialog, $mdMedia, $q, $mdToast){
 	
-/*	console.log($location.path())
-	$scope.parametro = null;*/
+	  /*Configurações de paginação no list.jsp*/
+	  $scope.query = {
+			    order: 'tipoLancamento',
+			    limit: 5,
+			    page: 1
+			  };
+	  
+	  $scope.options = {
+			    rowSelection: true,
+			    multiSelect: true,
+			    autoSelect: true,
+			    decapitate: false,
+			    largeEditDialog: false,
+			    boundaryLinks: false,
+			    limitSelect: true,
+			    pageSelect: true
+	 };
 	
+	  
+	  $scope.selectedItemChange= function(valor){
+		  if(valor == null)
+		  {
+			  $scope.busca = '';
+		  }
+		  console.log(valor)
+
+    };
 	
+	  
+	  $scope.toast = function(message,type)
+	  {
+		  $mdToast.show({
+		        template: '<md-toast class="md-toast ' + type + '">' + message + '</md-toast>',
+		        hideDelay: 6000,
+		        position: 'bottom right'
+		  });
+	  }
+	  
+	  
 	 $scope.selected = [];
 	 $scope.dataDe = null;
 	 $scope.dataAte = null;
@@ -22,6 +57,10 @@ angular.module("desafioApp").controller('lancamentoController', function ($scope
 		 })
 
 	};
+	
+	  $scope.detalhe = function(lancamento){
+		  $location.path("/lancamento/detalhes/" + lancamento.id);
+	  }
 	 
 	$scope.listLancamentos = function () {
 		lancamentoService.getLancamentos().
@@ -50,8 +89,8 @@ angular.module("desafioApp").controller('lancamentoController', function ($scope
 		  	console.log($scope.lancamento);
 			lancamentoService.efetuarDeposito($scope.lancamento).
 			success(function(){
-				console.log("Depósito realizado com sucesso")
 				$location.path("/lancamento");
+				$scope.toast("Depósito realizado com sucesso!", "success")
 			})
 			.error(function(data,status,headers,config,response) {
 				console.log("Error with status code", response);
@@ -63,9 +102,8 @@ angular.module("desafioApp").controller('lancamentoController', function ($scope
 			$scope.lancamento.tipoLancamento = "SAIDA"
 			lancamentoService.efetuarSaque($scope.lancamento).
 			success(function(data, status, headers, config){
-
-				console.log("Depósito realizado com sucesso")
 				$location.path("/lancamento");
+				$scope.toast("Saque realizado com sucesso!", "success")
 			})
 			.error(function(data, status, headers, config, errorMessage) {
 				console.log(errorMessage);
@@ -98,12 +136,12 @@ angular.module("desafioApp").controller('lancamentoController', function ($scope
 		console.log(transferencia);
 		lancamentoService.efetuarTransferencia(transferencia).
 		success(function(data, status, headers, config){
-			console.log("Depósito realizado com sucesso")
 				$location.path("/lancamento");
-			})
-			.error(function(data, status, headers, config, errorMessage) {
-				console.log(errorMessage);
-			})
+				$scope.toast("Transferência realizada com sucesso!", "success")
+		})
+		.error(function(data, status, headers, config, errorMessage) {
+			console.log(errorMessage);
+		})
 		
 	}
 	

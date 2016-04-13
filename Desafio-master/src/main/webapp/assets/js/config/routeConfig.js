@@ -86,6 +86,11 @@ angular.module('desafioApp').config(function($routeProvider, $httpProvider) {
 		controller: "lancamentoController",
 	});
 	
+	$routeProvider.when("/lancamento/detalhes/:id", {
+		templateUrl: "lancamento/detalhes",
+		controller: "lancamentoController",
+	});
+	
 	/*$routeProvider.otherwise({redirectTo: "/usuario"})*/
 })
 .factory('responseObserver', function responseObserver($q, $window) {

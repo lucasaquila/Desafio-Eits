@@ -16,7 +16,7 @@ angular.module("desafioApp").controller('usuarioController', ['$mdEditDialog', '
 		    boundaryLinks: false,
 		    limitSelect: true,
 		    pageSelect: true
-		  };
+ };
   
   $scope.toast = function(message, type)
   {
@@ -78,10 +78,8 @@ angular.module("desafioApp").controller('usuarioController', ['$mdEditDialog', '
   };
   
   $scope.excluirUsuario = function(id){
-	  console.log("id: " + id)
 	  usuarioService.excluirUsuario(id)
 	  .success(function(){
-		  console.log("Excluido com sucesso...")
 		  usuarioService.getUsuarios().
 		  success ( function ( data )  {
 			  $scope.usuarios = data;

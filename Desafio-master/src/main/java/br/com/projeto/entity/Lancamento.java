@@ -102,7 +102,6 @@ public class Lancamento extends AbstractPersistable<Long>{
 
 	@Override
 	protected void setId(Long id) {
-		// TODO Auto-generated method stub
 		super.setId(id);
 	}
 

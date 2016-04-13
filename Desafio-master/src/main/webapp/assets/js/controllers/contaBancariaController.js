@@ -1,5 +1,24 @@
 angular.module("desafioApp").controller('contaBancariaController', function ($scope, $routeParams,$location, contaBancariaService, usuarioService, $mdToast, $mdDialog){
 	
+	  /*Configurações de paginação no list.jsp*/
+	  $scope.query = {
+			    order: 'usuario.nome',
+			    limit: 5,
+			    page: 1
+			  };
+	  
+	  $scope.options = {
+			    rowSelection: true,
+			    multiSelect: true,
+			    autoSelect: true,
+			    decapitate: false,
+			    largeEditDialog: false,
+			    boundaryLinks: false,
+			    limitSelect: true,
+			    pageSelect: true
+	 };
+	
+	
 	  $scope.toast = function(message,type)
 	  {
 		  $mdToast.show({
@@ -36,9 +55,9 @@ angular.module("desafioApp").controller('contaBancariaController', function ($sc
 	  $scope.usuarios = [];
 	  $scope.contaBancaria = {
 			  banco : "CAIXA",
-			  saldo : "0.00"
+			  saldo : "0.00",
+			  usuario: null
 	  };
-	  
 	  
 	  if($routeParams.id != null){
 		  contaBancariaService.getContaBancaria($routeParams.id).
@@ -99,42 +118,40 @@ angular.module("desafioApp").controller('contaBancariaController', function ($sc
 		  })
 	  };
 	
-	  $scope.excluirContaBancariaDialog = function(selecionado){
-			 
+	  var excluirContaBancaria = function(id)
+	  {
+		  contaBancariaService.excluirContaBancaria(id)
+			 .success(function(){
+				 contaBancariaService.getContasBancariasByRole().
+				 success ( function ( data )  {
+					 $scope.contasBancarias = data;
+					$scope.toast("Conta Bancária excluída com sucesso!","success")
+				 })
+			 })
+			 .error(function(data) {
+				 $mdDialog.show(
+				 $mdDialog.alert()
+				 .clickOutsideToClose(true)
+				 .title('Operação Negada!')
+				 .textContent(data.mensagem)
+				 .ok('OK')
+				 );
+			 })
+	  };
+	  
+      $scope.excluirContaBancariaDialog = function(conta){
+    	  
 		    var confirm = $mdDialog.confirm()
 	        .title('Excluir Conta Bancária')
-	        .textContent('Você deseja alterar a situação do usuário ' + selecionado.nome + ' para ' + (selecionado.situacao? 'ATIVADO?' : "DESATIVADO?"))
+	        .textContent('Você têm certeza que deseja exlcuir a Conta com o Número: ' + conta.numero + ', Banco: ' +  conta.banco + ', Agência: ' + conta.agencia + ', Usuário: ' + conta.usuario.nome + '?')
 	        .ariaLabel('Lucky day')
 	        .ok('Sim')
 	        .cancel('Não');
 		  $mdDialog.show(confirm).then(function() {
-			  $scope.alterarSituacao(selecionado);
-			  $scope.toast("Situação de Usuário alterada com sucesso!", "success")
+			  excluirContaBancaria(conta.id)
 		  }, function() {
-			  selecionado.situacao = !selecionado.situacao
+
 		  });
-		  
-	  };
-	  
-      $scope.excluirContaBancaria = function(id){
-    	  console.log("id: " + id)
-    	  contaBancariaService.excluirContaBancaria(id)
-		 .success(function(){
-			 contaBancariaService.getContasBancariasByRole().
-			 success ( function ( data )  {
-				 $scope.contasBancarias = data;
-				$scope.toast("Conta Bancária excluída com sucesso!","success")
-			 })
-		 })
-		 .error(function(data) {
-			 $mdDialog.show(
-			 $mdDialog.alert()
-			 .clickOutsideToClose(true)
-			 .title('Operação Negada!')
-			 .textContent(data.mensagem)
-			 .ok('OK')
-			 );
-		 })
       };
 	
 });

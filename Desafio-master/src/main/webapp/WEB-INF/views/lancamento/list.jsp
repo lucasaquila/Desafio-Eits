@@ -29,19 +29,19 @@
         </md-toolbar>
         <md-divider></md-divider>
         <md-table-container>
-          <table md-table md-disable-select="" md-progress="deferred">
+          <table md-table md-disable-select="" md-progress="promise">
             <thead md-head md-order="query.order" md-on-reorder="logOrder">
-              <tr md-row md-no-checkbox="false">
-                <th md-column md-order-by="operacao"><span>Operação</span></th>
+              <tr md-row>
+                <th md-column md-order-by="tipoLancamento"><span>Operação</span></th>
                 <th md-column md-order-by="valor"><span>Valor</span></th>
                 <th md-column md-order-by="banco"><span>Banco</span></th>
                 <th md-column md-order-by="numero"><span>Nr. Conta</span></th>
-                <th md-column md-order-by="titular"><span>Titular</span></th>
+                <th md-column md-order-by="usuario.nome"><span>Titular</span></th>
                 <th md-column md-order-by="data"><span>Data</span></th>
               </tr>
             </thead>
             <tbody md-body>
-              <tr md-row md-auto-select="" ng-repeat="lancamento in lancamentos | filter: busca | orderBy: '-nome'">
+              <tr md-row ng-click="detalhe(lancamento)" ng-repeat="lancamento in lancamentos | filter: busca | orderBy: '-tipoLancamento' | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
                 <td md-cell>{{lancamento.tipoLancamento}}</td>
                 <td md-cell>{{lancamento.valor  | currency}}</td>
                 <td md-cell>{{lancamento.contaBancaria.banco}}</td>
@@ -52,8 +52,7 @@
             </tbody>
           </table>
         </md-table-container>
-
-        <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{desserts.count}}" md-page-select="options.pageSelector" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+        <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{lancamentos.length}}" md-page-select="options.pageSelector" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
       </md-card>
     </md-content>
 	

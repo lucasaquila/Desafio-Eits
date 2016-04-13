@@ -1,12 +1,14 @@
-<%@page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 	
 <div layout="row" ng-init="listContasBancariasByRole()">
+	
 	<div flex="20"></div>
 	<div flex=60>
+	<form name="formLancamento" ng-submit="sacar(lancamento)">
 		<h2>Saque</h2>
 		<div layout="row">
-			<md-autocomplete md-selected-item="lancamento.contaBancaria"
+		
+			<md-autocomplete md-selected-item="lancamento.contaBancaria" required
 				md-search-text="busca"
 				md-items="conta in contasBancariasOrigem | filter: busca"
 				md-item-text="'Banco: ' + conta.banco + ' - Nr. Conta: ' + conta.numero + ' - Titular: ' + conta.usuario.nome" 
@@ -31,8 +33,10 @@
 				<div layout="row">
 			<md-button class="md-raised" href="#/lancamento">Voltar</md-button>
 			<div flex></div>
-			<md-button class="md-raised md-primary" ng-click="sacar(lancamento)">Sacar</md-button>
-		</div>
+			<md-button class="md-raised md-primary" type="submit" ng-disabled="formLancamento.$invalid">Sacar</md-button>
+			</div>
+			</form>
+			</div>
 		<div flex></div>
 		
 </div>

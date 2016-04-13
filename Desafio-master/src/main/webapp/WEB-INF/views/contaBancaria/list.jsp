@@ -25,9 +25,9 @@
         </md-toolbar>
         <md-divider></md-divider>
         <md-table-container>
-          <table md-table md-disable-select="" md-progress="deferred">
+          <table md-table md-disable-select="" md-progress="promise">
             <thead md-head md-order="query.order" md-on-reorder="logOrder">
-              <tr md-row md-no-checkbox="false">
+              <tr md-row>
                 <th md-column md-order-by="usuario"><span>Titular</span></th>
                 <th md-column md-order-by="banco"><span>Banco</span></th>
                 <th md-column md-order-by="agencia"><span>Agência</span></th>
@@ -39,7 +39,7 @@
               </tr>
             </thead>
             <tbody md-body>
-              <tr md-row  ng-click="detalhe(conta)" md-auto-select="" ng-repeat="conta in contasBancarias | filter: busca | orderBy: '-nome'">
+              <tr md-row  ng-click="detalhe(conta)" ng-repeat="conta in contasBancarias | filter: busca | orderBy: '-usuario.nome' | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
                 <td md-cell>{{conta.usuario.nome}}</td>
                 <td md-cell>{{conta.banco}}</td>
                 <td md-cell>{{conta.agencia}}</td>
@@ -50,7 +50,7 @@
         			<md-button class="md-icon-button md-primary md-button md-ink-ripple" size="20" aria-label="edit" href="#/contaBancaria/editar/{{conta.id}}">
         			<ng-md-icon icon="edit" size="20"> </g-md-icon>
 					</md-button>
-        			<md-button class="md-icon-button md-primary md-button md-ink-ripple" size="20" aria-label="excluir" ng-click="excluirContaBancaria(conta.id);$event.stopPropagation()" style="z-index:1">
+        			<md-button class="md-icon-button md-primary md-button md-ink-ripple" size="20" aria-label="excluir" ng-click="excluirContaBancariaDialog(conta);$event.stopPropagation()" style="z-index:1">
         			<ng-md-icon icon="delete" size="20"> </g-md-icon>
 					</md-button>
         			<md-button ng-if="conta.saldo == 0" class="md-icon-button md-primary md-button md-ink-ripple" aria-label="edit" href="#/contaBancaria/saldoInicial/{{conta.id}}">
@@ -62,8 +62,7 @@
             </tbody>
           </table>
         </md-table-container>
-
-        <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{desserts.count}}" md-page-select="options.pageSelector" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+        <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{contasBancarias.length}}" md-page-select="options.pageSelector" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
       </md-card>
     </md-content>
 	

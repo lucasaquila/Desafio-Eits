@@ -60,7 +60,6 @@ public class UsuarioController {
 		return modelAndView;
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMINISTRADOR')")
 	@RequestMapping("/listagem")
 	public List<Usuario> getUsuarios(SecurityContextHolderAwareRequestWrapper request){
 		List<Usuario> usuarios =usuarioService.findAll(request);
