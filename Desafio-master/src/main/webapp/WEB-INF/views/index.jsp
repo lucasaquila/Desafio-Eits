@@ -2,7 +2,6 @@
 <!doctype html>
 <html lang="pt-br" ng-app="desafioApp">
 <head>
-	<meta charset="UTF-8">
 	<!-- <link rel="stylesheet" href="webjars/angular-material/1.0.6/angular-material.css"> -->
 	<link rel="stylesheet" href="webjars/angular-material/1.1.0-rc1/angular-material.css">
 	<link rel="stylesheet" href="webjars/angular-material-icons/0.6.0/angular-material-icons.css">
@@ -61,7 +60,7 @@
 	<script src="assets/js/services/usuarioService.js"></script>
 	<script src="assets/js/services/contaBancariaService.js"></script>
 	<script src="assets/js/services/lancamentoService.js"></script>
-	
+	<script src="assets/js/jspdf.debug.js"></script>
 </body>
 </html>
     

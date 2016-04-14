@@ -46,7 +46,7 @@ public class LoginController {
 	
 	@RequestMapping(value="/denied", method = RequestMethod.GET)
 	public ModelAndView acessoNegado() {
-		return new ModelAndView("error", "mensagem", "Acesso negado, area restrita.");
+		return new ModelAndView("error", "mensagem", "Acesso negado, área restrita.");
 	}
 	
 	@RequestMapping(value="/logout", method = RequestMethod.GET)

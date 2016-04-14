@@ -56,8 +56,8 @@ public class ContaBancariaController {
 	}
 	
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ContaBancaria getContaBancaria(@PathVariable("id") long id) {
-        ContaBancaria contaBancaria = contaBancariaService.findById(id);
+    public ContaBancaria getContaBancaria(@PathVariable("id") long id, SecurityContextHolderAwareRequestWrapper request) {
+        ContaBancaria contaBancaria = contaBancariaService.findById(id, request);
         return contaBancaria;
     }
 	

@@ -4,7 +4,7 @@
 	<div flex="20"></div>
 	<div flex=60>
 		<h2>Depósito</h2>
-		<form name="formLancamento" ng-submit="depositar(lancamento)">
+		<form name="formLancamento" ng-submit="depositarDialog()">
 		<div layout="row">
 			<md-autocomplete required 
 				md-selected-item="lancamento.contaBancaria"
@@ -12,8 +12,7 @@
 				md-items="conta in contasBancariasDestino | filter: busca"
 				md-item-text="'Banco: ' + conta.banco + ' - Nr. Conta: ' + conta.numero + ' - Titular: ' + conta.usuario.nome" 
 				md-floating-label="Conta Bancária" 
-				md-selected-item-change="selectedItemChange(lancamento.contaBancaria)"
-				
+				md--search-text-change="selectedItemChange(lancamento.contaBancaria)"
 				flex>
 	        <md-item-template>
 	          <span class="item-title">

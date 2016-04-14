@@ -49,6 +49,7 @@
 	</div>
 
 	<script src="webjars/angularjs/1.5.0/angular.min.js"></script>
+	<script src="webjars/angular-route/1.5.0/angular-route.min.js"></script>
 	<script src="webjars/angular-animate/1.5.0/angular-animate.min.js"></script>
 	<script src="webjars/angular-aria/1.5.0/angular-aria.min.js"></script>
 	<script src="webjars/angular-messages/1.5.0/angular-messages.min.js"></script>

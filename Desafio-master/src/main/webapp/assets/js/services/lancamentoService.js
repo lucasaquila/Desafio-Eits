@@ -1,9 +1,13 @@
 angular.module("desafioApp").factory("lancamentoService", ['$http', function($http, $q) {
 	
+	var _getLancamento = function(id){
+		return $http.get('/desafio/lancamento/' + id);
+	};
+	
 	var _getLancamentos = function(){
 		return $http.get('/desafio/lancamento/getLancamentos');
 	};
-	
+		
 	var _getLancamentosData = function(dataDe, dataAte){
 		return $http.get('/desafio/lancamento/getLancamentosData', { params:{'dataDe':dataDe, 'dataAte':dataAte}});
 	};
@@ -21,6 +25,7 @@ angular.module("desafioApp").factory("lancamentoService", ['$http', function($ht
 	};
 	
 	return {
+		getLancamento: _getLancamento,
 		getLancamentos: _getLancamentos,
 		efetuarDeposito: _efetuarDeposito,
 		efetuarSaque: _efetuarSaque,

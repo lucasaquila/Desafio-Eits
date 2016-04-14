@@ -43,6 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.antMatchers("/js/**").permitAll()
 			.antMatchers("/jspl/**").permitAll()
 			.antMatchers("/usuario/form").hasRole("ADMINISTRADOR")
+			.antMatchers("/contaBancaria/form").hasRole("ADMINISTRADOR")
 			.antMatchers("/usuario/").hasRole("USUARIO")
 			.antMatchers("/usuario/").hasRole("ADMINISTRADOR")
 //			.antMatchers(HttpMethod.POST,"/usuario").hasRole("ADMINISTRADOR")

@@ -1,4 +1,4 @@
-angular.module("desafioApp").controller('lancamentoController', function ($scope, $routeParams,$location,usuarioService, lancamentoService, contaBancariaService, $mdDialog, $mdMedia, $q, $mdToast){
+app.controller('lancamentoController', function ($scope, $routeParams,$location,usuarioService, lancamentoService, contaBancariaService, $mdDialog, $mdMedia, $q, $mdToast){
 	
 	  /*Configurações de paginação no list.jsp*/
 	  $scope.query = {
@@ -17,18 +17,14 @@ angular.module("desafioApp").controller('lancamentoController', function ($scope
 			    limitSelect: true,
 			    pageSelect: true
 	 };
-	
 	  
-	  $scope.selectedItemChange= function(valor){
-		  if(valor == null)
-		  {
-			  $scope.busca = '';
-		  }
-		  console.log(valor)
-
-    };
+	 if($routeParams.id != null){
+		 lancamentoService.getLancamento($routeParams.id).
+		 success(function(lancamento){
+			 $scope.lancamento = lancamento;
+		 });
+	  }
 	
-	  
 	  $scope.toast = function(message,type)
 	  {
 		  $mdToast.show({
@@ -84,34 +80,89 @@ angular.module("desafioApp").controller('lancamentoController', function ($scope
 		 })
 	};
 
-	$scope.depositar = function() {
+    $scope.depositarDialog = function(lancamento){
+	    var confirm = $mdDialog.confirm()
+        .title('Confirmar Depósito')
+        .textContent('Você têm certeza que deseja realizar este depósito?')
+        .ariaLabel('Lucky day')
+        .ok('Sim')
+        .cancel('Não');
+	  $mdDialog.show(confirm).then(function() {
+		  depositar();
+	  }, function() {
+
+	  });
+  };
+	
+	var depositar = function() {
+		if ( $scope.lancamento.contaBancaria &&
+				$scope.lancamento.contaBancaria.id ) {
 			$scope.lancamento.tipoLancamento = "ENTRADA"
-		  	console.log($scope.lancamento);
+				console.log($scope.lancamento);
 			lancamentoService.efetuarDeposito($scope.lancamento).
 			success(function(){
 				$location.path("/lancamento");
-				$scope.toast("Depósito realizado com sucesso!", "success")
+				$scope.toast("Depósito realizado com sucesso.", "success")
 			})
 			.error(function(data,status,headers,config,response) {
 				console.log("Error with status code", response);
 			})
+		} else {
+			$scope.toast("Selecione uma Conta Bancária.", "error")
+		}
 	};
 	
 
-	$scope.sacar = function() {
+    $scope.sacarDialog = function(){
+	    var confirm = $mdDialog.confirm()
+        .title('Confirmar Saque')
+        .textContent('Você têm certeza que deseja realizar este saque?')
+        .ariaLabel('Lucky day')
+        .ok('Sim')
+        .cancel('Não');
+	  $mdDialog.show(confirm).then(function() {
+		  sacar();
+	  }, function() {
+
+	  });
+  };
+	
+	var sacar = function() {
+		if ( $scope.lancamento.contaBancaria &&
+				$scope.lancamento.contaBancaria.id ) {
 			$scope.lancamento.tipoLancamento = "SAIDA"
 			lancamentoService.efetuarSaque($scope.lancamento).
 			success(function(data, status, headers, config){
 				$location.path("/lancamento");
-				$scope.toast("Saque realizado com sucesso!", "success")
+				$scope.toast("Saque realizado com sucesso.", "success")
 			})
 			.error(function(data, status, headers, config, errorMessage) {
 				console.log(errorMessage);
 			})
+		} else {
+			$scope.toast("Selecione uma Conta Bancária.", "error")
+		}
 	};
 	
-	$scope.transferir = function()
+    $scope.transferirDialog = function(){
+	    var confirm = $mdDialog.confirm()
+        .title('Confirmar Transferência')
+        .textContent('Você têm certeza que deseja realizar esta transferência?')
+        .ariaLabel('Lucky day')
+        .ok('Sim')
+        .cancel('Não');
+	  $mdDialog.show(confirm).then(function() {
+		  transferir();
+	  }, function() {
+
+	  });
+  };
+	
+	var transferir = function()
 	{ 
+		if ( $scope.lancamento.contaBancariaOrigem && $scope.lancamento.contaBancariaOrigem.id &&
+				$scope.lancamento.contaBancariaDestino && $scope.lancamento.contaBancariaDestino.id	)
+		{
 		var entrada = $scope.lancamento;
 		var saida = {
 				data: $scope.lancamento.data,
@@ -142,7 +193,10 @@ angular.module("desafioApp").controller('lancamentoController', function ($scope
 		.error(function(data, status, headers, config, errorMessage) {
 			console.log(errorMessage);
 		})
-		
+		}
+		else{
+			$scope.toast("Selecione uma Conta Bancária de Origem e Destino.", "error")
+		}
 	}
 	
 	

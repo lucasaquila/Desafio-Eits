@@ -1,4 +1,4 @@
-angular.module("desafioApp").controller('usuarioController', ['$mdEditDialog', '$q', '$scope', '$timeout', '$http', 'usuarioService','$location', '$routeParams','$mdToast', '$mdDialog',  function ($mdEditDialog, $q, $scope, $timeout, $http, usuarioService, $location, $routeParams,$mdToast, $mdDialog) {
+app.controller('usuarioController', ['$mdEditDialog', '$q', '$scope', '$timeout', '$http', 'usuarioService','$location', '$routeParams','$mdToast', '$mdDialog',  function ($mdEditDialog, $q, $scope, $timeout, $http, usuarioService, $location, $routeParams,$mdToast, $mdDialog) {
   'use strict';
   
   $scope.query = {

@@ -14,7 +14,7 @@ public interface ContaBancariaRepository extends JpaRepository<ContaBancaria, Lo
 
 	@Modifying(clearAutomatically = true)
 	@Query("update ContaBancaria c set c.saldo =:saldo where c.id =:id")
-	void inserirSaldoInicial(@Param("id") Long id,@Param("saldo") BigDecimal saldo);
+	void inserirSaldoInicial(@Param("id") Long id, @Param("saldo") BigDecimal saldo);
 	
 	@Query("Select c from ContaBancaria c where c.usuario.id = :id")
 	List<ContaBancaria> findByUsuario(@Param("id") Long id);
@@ -22,4 +22,7 @@ public interface ContaBancariaRepository extends JpaRepository<ContaBancaria, Lo
     @Query("SELECT CASE WHEN COUNT(l) > 0 THEN true ELSE false END FROM Lancamento l WHERE l.contaBancaria.id = :id")
     Boolean existeLancamento(@Param("id") Long id);
 	
+    @Query("Select c from ContaBancaria c where c.id = :id AND c.usuario.id = :idUsuario")
+    ContaBancaria findOneByUser(@Param("idUsuario") Long idUsuario, @Param("id") Long id);
+    
 }

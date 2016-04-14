@@ -64,7 +64,6 @@ angular.module('desafioApp').config(function($routeProvider, $httpProvider) {
 		controller: "contaBancariaController",
 	});
 	
-	
 	/*LANÇAMENTOS*/
 	$routeProvider.when("/lancamento", {
 		templateUrl: "lancamento",

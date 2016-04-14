@@ -24,10 +24,27 @@ public class ContaBancariaService {
 	@Autowired
 	private ContaBancariaRepository repository;
 	
-	public ContaBancaria findById(Long id)
+	public ContaBancaria findById(Long id, SecurityContextHolderAwareRequestWrapper request)
 	{
-		return repository.findOne(id);
+		boolean roleAdministrador = request.isUserInRole("ROLE_ADMINISTRADOR");
+		if(roleAdministrador == true)
+		{
+			return repository.findOne(id);	
+		}
+		else
+		{
+			UsuarioLogado user = (UsuarioLogado)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+			return repository.findOneByUser(user.getId(), id);
+		}
+		 
 	}
+	
+/*	public ContaBancaria findById(Long id)
+	{
+		ContaBancaria contaBancaria.fom
+		return repository.findOne(id);
+	}*/
 	
 	public List<ContaBancaria> findAll(){
 		return repository.findAll();	

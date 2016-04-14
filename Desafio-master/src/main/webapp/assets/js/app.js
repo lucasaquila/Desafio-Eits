@@ -1,6 +1,5 @@
-angular.module('desafioApp', ['ngMaterial','md.data.table', "ngRoute", "ngMdIcons", "ngMessages" ]);
-angular.module('desafioApp')
-.config(['$httpProvider', function($httpProvider) {
+var app = angular.module('desafioApp', ['ngMaterial','md.data.table', "ngRoute", "ngMdIcons", "ngMessages" ]);
+app.config(['$httpProvider', function($httpProvider) {
 $httpProvider.defaults.xsrfHeaderName = 'X-CSRF-TOKEN';
 $httpProvider.interceptors.push(function() {
     return {
@@ -11,3 +10,9 @@ $httpProvider.interceptors.push(function() {
     }    
 });
 }])
+
+app.filter('capitalize', function() {
+    return function(input) {
+      return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
+    }
+});

@@ -32,7 +32,9 @@ public interface LancamentoRepository extends JpaRepository<Lancamento, Long>{
 			+ "(l.data <= :dataFim OR cast(:dataFim, date) = null) and"
 			+ "(l.contaBancaria.usuario.id = :id)")
 	List<Lancamento> findByDataUsuario(@Param("dataInicio") Calendar dataInicio,@Param("dataFim") Calendar dataFim, @Param("id") Long id);
-
+	
+	@Query("Select l from Lancamento l where l.id = :id AND l.contaBancaria.usuario.id = :idUsuario")
+    Lancamento findOneByUser(@Param("idUsuario") Long idUsuario, @Param("id") Long id);
 
 	
 }

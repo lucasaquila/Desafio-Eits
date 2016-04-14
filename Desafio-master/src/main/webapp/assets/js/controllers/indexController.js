@@ -4,7 +4,11 @@ angular.module("desafioApp").controller('indexController', ['$mdEditDialog', '$q
   $scope.redirecionar = function(link){
 	  $location.path(link);
   }
-
+  
+  $scope.logout = function(){
+	  
+  }
+  
 }]);
 
 

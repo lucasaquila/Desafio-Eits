@@ -1,4 +1,4 @@
-angular.module("desafioApp").controller('contaBancariaController', function ($scope, $routeParams,$location, contaBancariaService, usuarioService, $mdToast, $mdDialog){
+app.controller('contaBancariaController', function ($scope, $routeParams,$location, contaBancariaService, usuarioService, $mdToast, $mdDialog){
 	
 	  /*Configurações de paginação no list.jsp*/
 	  $scope.query = {
@@ -140,7 +140,6 @@ angular.module("desafioApp").controller('contaBancariaController', function ($sc
 	  };
 	  
       $scope.excluirContaBancariaDialog = function(conta){
-    	  
 		    var confirm = $mdDialog.confirm()
 	        .title('Excluir Conta Bancária')
 	        .textContent('Você têm certeza que deseja exlcuir a Conta com o Número: ' + conta.numero + ', Banco: ' +  conta.banco + ', Agência: ' + conta.agencia + ', Usuário: ' + conta.usuario.nome + '?')

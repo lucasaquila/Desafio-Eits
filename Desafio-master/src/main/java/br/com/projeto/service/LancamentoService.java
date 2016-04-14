@@ -44,6 +44,23 @@ public class LancamentoService {
 	@Autowired
 	private JavaMailSender mailSender; 
 	
+	
+	public Lancamento findById(Long id, SecurityContextHolderAwareRequestWrapper request)
+	{
+		boolean roleAdministrador = request.isUserInRole("ROLE_ADMINISTRADOR");
+		if(roleAdministrador == true)
+		{
+			return lancamentoRepository.findOne(id);	
+		}
+		else
+		{
+			UsuarioLogado user = (UsuarioLogado)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+			return lancamentoRepository.findOneByUser(user.getId(), id);
+		}
+		
+	}
+	
 /*	public List<Lancamento> findAll(SecurityContextHolderAwareRequestWrapper request){
 		
 		boolean roleAdministrador = request.isUserInRole("ROLE_ADMINISTRADOR");
@@ -107,8 +124,10 @@ public class LancamentoService {
 	
 	public ResponseEntity<?> efetuarTransferencia(Transferencia transferencia){
 		try {
-			lancamentoRepository.save(transferencia.getEntrada());
-			lancamentoRepository.save(transferencia.getSaida());
+			efetuarDeposito(transferencia.getEntrada());
+			/*lancamentoRepository.save(transferencia.getEntrada());*/
+			efetuarSaque(transferencia.getSaida());
+			/*lancamentoRepository.save(transferencia.getSaida());*/
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(e);

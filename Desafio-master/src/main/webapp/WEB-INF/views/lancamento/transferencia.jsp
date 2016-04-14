@@ -5,7 +5,7 @@
 	<div flex="20"></div>
 	<div flex=60>
 		<h2>Transferência entre Contas</h2>
-		<form name="formLancamento" ng-submit="transferir()">
+		<form name="formLancamento" ng-submit="transferirDialog()">
 		<div layout="row" ng-init="listContasBancariasByRole()">
 			<md-autocomplete md-selected-item="lancamento.contaBancariaOrigem"
 				required

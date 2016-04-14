@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.projeto.entity.ContaBancaria;
 import br.com.projeto.entity.Lancamento;
 import br.com.projeto.entity.Transferencia;
 import br.com.projeto.service.LancamentoService;
@@ -67,7 +69,6 @@ public class LancamentoController {
 	public List<Lancamento> getLancamentosPorData(@RequestParam(value = "dataDe", required = false) Calendar dataDe, 
 													@RequestParam(value = "dataAte", required = false) Calendar dataAte,
 													SecurityContextHolderAwareRequestWrapper request){
-		System.out.println("Chegou =P");
 		List<Lancamento> lancamentos = lancamentoService.findByDate(dataDe, dataAte, request);
 		return lancamentos;
 	}
@@ -88,6 +89,18 @@ public class LancamentoController {
 		return lancamentoService.efetuarTransferencia(transferencia);
 		 
 	}
+	
+	@RequestMapping(value = "/detalhes", method = RequestMethod.GET)
+	public ModelAndView detalhes(){
+		ModelAndView modelAndView =	new ModelAndView("lancamento/detalhes");
+		return modelAndView;
+	}
+	
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Lancamento getLancamento(@PathVariable("id") long id, SecurityContextHolderAwareRequestWrapper request) {
+        Lancamento lancamento = lancamentoService.findById(id, request);
+        return lancamento;
+    }
 
 	
 }
