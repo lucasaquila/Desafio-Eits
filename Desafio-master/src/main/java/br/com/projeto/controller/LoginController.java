@@ -7,41 +7,33 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.sun.javafx.collections.MappingChange.Map;
 
 @Controller
 public class LoginController {
 
 	
-	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginPage(){
+	public String login(
+		@RequestParam(value = "error", required = false) String error,
+		@RequestParam(value = "logout", required = false) String logout, Model model) {
+
+		if (error != null) {
+			model.addAttribute("error", "Seu email ou senha estão incorretos.");
+		}
+
+		if (logout != null) {
+			model.addAttribute("msg", "Você saiu do sistema.");
+		}
 		return "/auth/login";
-	}
-	
-	@RequestMapping(value="/login", method = RequestMethod.POST)
-	public ModelAndView login( 
-			@RequestParam(value = "error", required = false) boolean error,
-			@RequestParam(value = "logout", required = false) boolean logout, ModelMap model){
-		
-		System.out.println("Entrou no login");
-		if(error)
-		{
-			System.out.println("login invalido");
-			model.addAttribute("error", "Login Inválido, senha ou nome de usuário não confere");
-			return new ModelAndView("/auth/login", model);
-		}
-		
-		if(error)
-		{
-			model.addAttribute("logout", "Usuário saiu do sistema com sucesso");
-			return new ModelAndView("/auth/login", model);
-		}
-		return new ModelAndView("redirect:/usuario");
 	}
 	
 	@RequestMapping(value="/denied", method = RequestMethod.GET)
@@ -50,11 +42,14 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
-	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+	public String logoutPage (HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes) {
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    if (auth != null){    
 	        new SecurityContextLogoutHandler().logout(request, response, auth);
 	    }
-	    return "/auth/login";
+    
+	   request.setAttribute("logout", "true");
+	    
+	    return "redirect:login?logout=true";
 	}
 }

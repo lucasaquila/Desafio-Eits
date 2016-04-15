@@ -23,7 +23,7 @@
 
 <md-button md-no-ink>Bem-vindo <security:authentication property="principal.username" /></md-button>
         
-	 <md-button md-no-ink href="#/logout"><strong>LOGOUT</strong></md-button>
+	  <md-button md-no-ink href="<c:url value="/logout" />"><strong>LOGOUT</strong></md-button>
       </div>
     </md-toolbar>
     <md-tabs style="background-color:#EAEAEA">
@@ -44,7 +44,6 @@
 	<script src="webjars/angular-animate/1.5.0/angular-animate.min.js"></script>
 	<script src="webjars/angular-aria/1.5.0/angular-aria.min.js"></script>
 	<script src="webjars/angular-material-icons/0.6.0/angular-material-icons.min.js"></script>
-	<!-- <script src="webjars/angular-material/1.0.6/angular-material.min.js"></script> -->
 	<script src="webjars/angular-material/1.1.0-rc1/angular-material.min.js"></script> 
 	
 	<script src="assets/js/md-data-table.min.js"></script>
@@ -53,14 +52,12 @@
 	<script src="assets/js/config/routeConfig.js"></script>
 	<script src="assets/js/config/materialConfig.js"></script>
 	<script src="assets/js/controllers/usuarioController.js"></script>
-	<!-- <script src="assets/js/controllers/usuarioDetalhesController.js"></script> -->
 	<script src="assets/js/controllers/contaBancariaController.js"></script>
 	<script src="assets/js/controllers/lancamentoController.js"></script>
 	<script src="assets/js/controllers/indexController.js"></script>
 	<script src="assets/js/services/usuarioService.js"></script>
 	<script src="assets/js/services/contaBancariaService.js"></script>
 	<script src="assets/js/services/lancamentoService.js"></script>
-	<script src="assets/js/jspdf.debug.js"></script>
 </body>
 </html>
     

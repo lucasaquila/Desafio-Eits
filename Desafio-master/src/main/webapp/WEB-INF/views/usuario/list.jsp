@@ -1,28 +1,22 @@
 <%-- <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> --%>
-
-
     <md-content layout="column" flex ng-init="listUsers()">
+    <div layout="row">
     	<h2 style="margin-left:10px">Lista de Usuários</h2>
+		<security:authorize access="hasAnyRole('ADMINISTRADOR')">
+		<div flex layout="row" layout-align="end end">
+			<md-button class="md-raised md-primary" style="color:white; background-color:#4EBD4E" href="#/usuario/form">Novo</md-button>
+		</div>
+		</security:authorize>
+	</div>
       <md-card>
-        <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
+        <md-toolbar class="md-table-toolbar md-default table-head" ng-hide="options.rowSelection && selected.length">
           <div class="md-toolbar-tools">
-            <!-- <span>Lista de Usuários</span> -->
-
 		    <div flex="40">
     	        <md-input-container class="md-block">
-        	    <label>O que você está buscando?</label>
+        	    <label>Pesquisar</label>
             	<input ng-model="busca">
           		</md-input-container>
 	    	</div>
-<!--     		<div flex="50">
-    			<md-button class="md-raised md-primary" style="color:white">Pesquisar</md-button>
-    		</div> -->
-    		
-    		<security:authorize access="hasAnyRole('ADMINISTRADOR')">
-    		<div flex layout="row" layout-align="end end">
-    			<md-button class="md-raised md-primary" style="color:white; background-color:#4EBD4E" href="#/usuario/form">Novo</md-button>
-    		</div>
-    		</security:authorize>
           </div>
         </md-toolbar>
         <md-divider></md-divider>

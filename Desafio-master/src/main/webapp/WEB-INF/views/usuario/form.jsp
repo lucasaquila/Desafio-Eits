@@ -4,7 +4,6 @@
 	<div flex="20"></div>
 	<div flex=60>
 		<h2>Cadastro de Usuários</h2>
-
 		<p>Tipo de Usuário</p>
 		<form ng-submit="adicionarUsuario(usuario)" name="formulario">
 			<md-input-container class="md-block" flex-gt-sm>

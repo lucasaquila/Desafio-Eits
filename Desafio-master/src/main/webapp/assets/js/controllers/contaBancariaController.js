@@ -1,6 +1,7 @@
 app.controller('contaBancariaController', function ($scope, $routeParams,$location, contaBancariaService, usuarioService, $mdToast, $mdDialog){
 	
 	  /*Configurações de paginação no list.jsp*/
+	
 	  $scope.query = {
 			    order: 'usuario.nome',
 			    limit: 5,
@@ -102,7 +103,8 @@ app.controller('contaBancariaController', function ($scope, $routeParams,$locati
 		contaBancariaService.getContasBancariasByRole().
 		success ( function ( data ){
 			$scope.contasBancarias = data;
-			console.log("listou!")
+			console.log("listou!");
+			console.log(data);
 		 })
 	};
 	

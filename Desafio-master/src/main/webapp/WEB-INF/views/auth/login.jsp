@@ -1,4 +1,5 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!doctype html>
 <html>
 <head>
@@ -9,7 +10,7 @@
 <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
 
 </head>
-<body>
+<body class="background-login">
 
 	<div ng-app="App" ng-controller="AppCtrl" layout="row" layout-fill
 		ng-cloak>
@@ -27,9 +28,11 @@
 				 <div layout="row" layout-align="center center">
 				 <div class="md-headline md-padding" >Autenticação</div>
 				 </div>
-					 <form:form servletRelativeAction="/login" method="POST">
+					 <%-- <form:form servletRelativeAction="/login" method="POST"> --%>
+					 <form name='loginForm' action="<c:url value='j_spring_security_check' />" method='POST'>
+					 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					 <!-- <form role="form" ng-submit="login()"></form> -->
-						<md-input-container class="md-block"> 
+				<md-input-container class="md-block"> 
 							<label for="username">Email</label> 
 							<input type="email" name="username"	ng-model="credentials.email" required />
 						</md-input-container>
@@ -37,12 +40,23 @@
 							<label for="password">Senha</label> 
 							<input type="password" name="password" ng-model="credentials.password" required /> 
 						</md-input-container>
+						
+						
+				<c:if test="${not empty error}">
+				<div layout="row" layout-align="center center">
+					<div class="error">${error}</div>
+					</div>
+				</c:if>
+				<c:if test="${not empty msg}">
+					<div class="msg">${msg}</div>
+				</c:if>
 						<md-input-container class="md-block">
 							<div layout="row" layout-align="center center">
 							<md-button type="submit" class="md-raised md-accent" flex="50">Acessar</md-button>
 						</div>
 						</md-input-container>
-					</form:form> 
+					<%-- </form:form> --%>
+					</form> 
 				</md-card-content> 
 			</md-card>
 		</section>

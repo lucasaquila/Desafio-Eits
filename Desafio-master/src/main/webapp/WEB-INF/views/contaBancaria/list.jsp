@@ -1,30 +1,29 @@
 <%-- <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> --%>
     <md-content layout="column" flex ng-init="listContasBancarias()">
-    	<h2 style="margin-left:10px">Contas Bancárias</h2>
-    	</div>
+    	<div layout="row">
+    		<h2 style="margin-left:10px">Contas Bancárias</h2>
+			<security:authorize access="hasAnyRole('ADMINISTRADOR')">
+				<div flex layout="row" layout-align="end end">
+					<md-button class="md-raised md-primary"
+						style="color:white; background-color:#4EBD4E" href="#/contaBancaria/form">Novo</md-button>
+				</div>
+			</security:authorize>
+		</div>
       <md-card>
-        <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
+        <md-toolbar class="md-table-toolbar md-default table-head" ng-show="contasBancarias.length">
           <div class="md-toolbar-tools">
             <!-- <span>Lista de Usuários</span> -->
 
 		    <div flex="40">
     	        <md-input-container class="md-block">
-        	    <label>O que você está buscando?</label>
+        	    <label>Pesquisar</label>
             	<input ng-model="busca">
           		</md-input-container>
 	    	</div>
-<!--     		<div flex="50">
-    			<md-button class="md-raised md-primary" style="color:white">Pesquisar</md-button>
-    		</div> -->
-    		<security:authorize access="hasAnyRole('ADMINISTRADOR')">
-    		<div flex layout="row" layout-align="end end">
-    			<md-button class="md-raised md-primary" style="color:white; background-color:#4EBD4E" href="#/contaBancaria/form">Novo</md-button>
-    		</div>
-    		</security:authorize>
           </div>
         </md-toolbar>
         <md-divider></md-divider>
-        <md-table-container>
+        <md-table-container ng-show="contasBancarias.length">
           <table md-table md-disable-select="" md-progress="promise">
             <thead md-head md-order="query.order" md-on-reorder="logOrder">
               <tr md-row>
@@ -39,7 +38,7 @@
               </tr>
             </thead>
             <tbody md-body>
-              <tr md-row  ng-click="detalhe(conta)" ng-repeat="conta in contasBancarias | filter: busca | orderBy: '-usuario.nome' | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+              <tr md-row   ng-click="detalhe(conta)" ng-repeat="conta in contasBancarias | filter: busca | orderBy: '-usuario.nome' | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
                 <td md-cell>{{conta.usuario.nome}}</td>
                 <td md-cell>{{conta.banco}}</td>
                 <td md-cell>{{conta.agencia}}</td>
@@ -61,8 +60,13 @@
               </tr>
             </tbody>
           </table>
-        </md-table-container>
         <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{contasBancarias.length}}" md-page-select="options.pageSelector" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+        </md-table-container>
+          <div flex class="table-empty" ng-if="contasBancarias.length == 0">
+          	<span>
+          		Não existem contas bancárias para este usuário.
+          	</span>
+          </div>
       </md-card>
     </md-content>
 	

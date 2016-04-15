@@ -3,7 +3,7 @@
 <div layout="row" ng-init="listContasBancarias()" id="fromHTMLtestdiv">
 	<div flex="20"></div>
 	<div flex=60>
-		<h2>Detalhes da Movimentação</h2>
+		<h2>Detalhes da Conta Bancária</h2>
 			<div layout="row">
 				<md-input-container class="md-block" flex-gt-sm flex="50">
 				<div layout="row">
